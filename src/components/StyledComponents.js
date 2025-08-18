@@ -12,3 +12,26 @@ export const KioskWrap = styled.div`
     transform-origin: top left;
   }
 `
+
+export const SubWrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 0 20px;
+  gap: 40px 10px;
+  .sub_box {
+    width: 100%; height: 340px;
+    border-radius: 10px;
+    background-color: #eee;
+    
+    p {
+      text-align: center;
+    }
+    .sub_title {
+      font-size: 20px;
+    }
+    .sub_price {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+`

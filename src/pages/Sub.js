@@ -13,6 +13,7 @@ const KioskGnb = styled.ul`
   height: 100px;
   display: flex;
   background-color: #005AD5;
+  margin-bottom: 60px;
   li {
     width: 20%;
     font-weight: 500;

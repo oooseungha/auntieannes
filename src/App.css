@@ -12,5 +12,6 @@ img {
 }
 body, html {
   font-family: "Noto Sans KR", sans-serif !important;
-  letter-spacing: -1px important!;
+  letter-spacing: -1px !important;
+  color: #1a1a1a !important;
 }
