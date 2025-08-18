@@ -1,0 +1,21 @@
+.header {
+  width: 1070px; height: 150px;
+  background-color: #005AD5;
+}
+.header .home_btn {
+  display: block;
+  float: left;
+  width: 198px; height: 80px;
+  margin: 35px 0 0 20px;
+  border-radius: 50px;
+  border: none;
+  background-color: #10059F;
+  color: white;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+.header .logo {
+  width: 408px; height: 82px;
+  margin: 0 auto;
+  padding-top: 35px;
+}

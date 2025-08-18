@@ -1,26 +1,23 @@
 import './App.css';
 
+
 // ------------------------ Router
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // ------------------------ Pages
 import Main from './pages/Main';
 import Sub from './pages/Sub';
+import SubClassic from './pages/SubPages/SubClassic';
+import SubStick from './pages/SubPages/SubStick';
+import SubHotdog from './pages/SubPages/SubHotdog';
+import SubDip from './pages/SubPages/SubDip';
+import SubDrink from './pages/SubPages/SubDrink';
 import Payment from './pages/Payment';
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
+import { KioskWrap } from './components/StyledComponents';
 
-const KioskWrap = styled.div`
-  width: 1070px; height: 1920px;
-  margin: 0 auto;
-
-  // ★★★ 개발용 임시 미디어쿼리
-  @media screen and (max-width: 3000px) {
-    transform: scale(0.4);
-    transform-origin: top left;
-  }
-`
 
 function App() {
   return (
@@ -28,7 +25,14 @@ function App() {
       <KioskWrap>
         <Routes>
           <Route path='/' element={<Main />} />
-          <Route path='sub' element={<Sub />} />
+          <Route path='/sub/*' element={<Sub />}>
+            <Route index element={<Navigate to='classic' replace />} />
+            <Route path='classic' element={<SubClassic />} />
+            <Route path='stick' element={<SubStick />} />
+            <Route path='hotdog' element={<SubHotdog />} />
+            <Route path='dip' element={<SubDip />} />
+            <Route path='drink' element={<SubDrink />} />
+          </Route>
           <Route path='payment' element={<Payment />} />
         </Routes>
 
