@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+
+// ------------------------ Components
+import Main from './pages/Main';
+
+// ------------------------ Styled-Components
+import styled from 'styled-components';
+
+const KioskWrap = styled.div`
+  width: 1070px; height: 1920px;
+  margin: 0 auto;
+
+  // ★★★ 개발용 임시 미디어쿼리
+  @media screen and (max-width: 3000px) {
+    transform: scale(0.4);
+    transform-origin: top left;
+  }
+`
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <KioskWrap>
+        <Main />
+
+
+      </KioskWrap>
     </div>
   );
 }
