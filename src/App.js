@@ -1,7 +1,12 @@
 import './App.css';
 
-// ------------------------ Components
+// ------------------------ Router
+import { Routes, Route } from 'react-router-dom';
+
+// ------------------------ Pages
 import Main from './pages/Main';
+import Sub from './pages/Sub';
+import Payment from './pages/Payment';
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
@@ -21,7 +26,11 @@ function App() {
   return (
     <div className="App">
       <KioskWrap>
-        <Main />
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route path='sub' element={<Sub />} />
+          <Route path='payment' element={<Payment />} />
+        </Routes>
 
 
       </KioskWrap>

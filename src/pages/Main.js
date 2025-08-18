@@ -72,14 +72,19 @@ export default function Main() {
           </div>
 
           <div className='main_btn_box'>
-            <div className='store_button'>
-              <div><FontAwesomeIcon icon={faStore} /></div>
-              <button>매장에서 먹기</button>
-            </div>
-            <div className='takeout_button'>
-              <div><FontAwesomeIcon icon={faBagShopping} /></div>
-              <button>포장해서 먹기</button>
-            </div>
+            <Link to='sub'>
+              <div className='store_button'>
+                <div><FontAwesomeIcon icon={faStore} /></div>
+                <button>매장에서 먹기</button>
+              </div>
+            </Link>
+            
+            <Link to='sub'>
+              <div className='takeout_button'>
+                <div><FontAwesomeIcon icon={faBagShopping} /></div>
+                <button>포장해서 먹기</button>
+              </div>
+            </Link>
           </div>
 
         </div>
