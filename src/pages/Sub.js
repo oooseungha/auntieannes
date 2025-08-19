@@ -3,8 +3,9 @@ import React from 'react'
 // ------------------------ Router
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 
-// ------------------------ Pages
+// ------------------------ Pages & Components
 import Header from '../components/Header/Header'
+import SubFooter from '../components/SubFooter/SubFooter';
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
@@ -26,12 +27,15 @@ const KioskGnb = styled.ul`
       letter-spacing: -1px;
       color: white;
       text-align: center;
-      line-height: 100px;
+      line-height: 90px;
+      margin-top: 10px;
     }
   }
 `
 const GnbMenu = styled(NavLink)`
   &.active span {
+    height: 90px;
+    margin-top: 10px;
     background-color: white;
     color: #10059F;
     border-radius: 30px 30px 0 0;
@@ -56,6 +60,8 @@ export default function Sub() {
       </KioskGnb>
 
       <Outlet />
+
+      <SubFooter />
     </div>
   )
 }

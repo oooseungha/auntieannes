@@ -4,6 +4,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_01.png',
     title: '오리지널 프레즐',
+    eng_title: 'Original Pretzel',
+    info: '굵은 정제소금을 뿌려 고소하고 담백한 맛이 특징인 프레즐',
     price: 4500
   },
   {
@@ -11,6 +13,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_02.png',
     title: '아몬드 프레즐',
+    eng_title: 'Almond Pretzel',
+    info: '바삭한 아몬드 크런치 토핑이 가득 올려진 고소하고 달콤한 맛의 프레즐',
     price: 4700
   },
   {
@@ -18,6 +22,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_03.png',
     title: '시나몬 슈가 프레즐',
+    eng_title: 'Cinamon Sugar Pretzel',
+    info: '그윽한 계피가루와 설탕이 적절히 조화된 향긋하고 달콤한 맛의 프레즐',
     price: 4700
   },
   {
@@ -25,6 +31,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_04.png',
     title: '갈릭 프레즐',
+    eng_title: 'Garlic Pretzel',
+    info: '마늘가루를 토핑하여 매콤하고 짭쪼름한 맛의 프레즐',
     price: 4700
   },
   {
@@ -32,6 +40,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_05.png',
     title: '어니언 프레즐',
+    eng_title: 'Onion Pretzel',
+    info: 'Sour Cream&Onion가루를 토핑하여 새콤달콤하고 짭쪼름한 맛의 프레즐',
     price: 4700
   },
   {
@@ -39,6 +49,8 @@ export const products = [
     category: 'classic',
     image: process.env.PUBLIC_URL + '/images/classic_06.png',
     title: '페퍼로니 프레즐',
+    eng_title: 'Pepperoni Pretzel',
+    info: '페퍼로니 햄과 모짜렐라, 체다 치즈가 어우러져 고소하고 짭짤한 프레즐',
     price: 6100
   },
   {
@@ -46,6 +58,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_01.png',
     title: '오리지널 스틱',
+    eng_title: 'Original Stix',
+    info: '굵은 정제소금을 뿌려 고소하고 담백한 맛의 스틱 프레즐',
     price: 4500
   },
   {
@@ -53,6 +67,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_02.png',
     title: '아몬드 스틱',
+    eng_title: 'Almond Stix',
+    info: '아몬드 크런치 토핑이 듬뿍 올려진 고소하고 달콤한 맛의 스틱 프레즐',
     price: 4800
   },
   {
@@ -60,6 +76,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_03.png',
     title: '시나몬 슈가 스틱',
+    eng_title: 'Cinamon Sugar Stix',
+    info: '그윽한 계피가루와 설탕이 적절히 조화된 향긋하고 달콤한 맛의 스틱 프레즐',
     price: 4800
   },
   {
@@ -67,6 +85,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_04.png',
     title: '갈릭 스틱',
+    eng_title: 'Garlic Stix',
+    info: '마늘가루를 토핑하여 매콤하고 짭쪼름한 맛의 스틱',
     price: 4800
   },
   {
@@ -74,6 +94,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_05.png',
     title: '어니언 스틱',
+    eng_title: 'Onion Stix',
+    info: 'Sour Cream&Onion가루를 토핑하여 새콤달콤하고 짭쪼름한 맛의 스틱',
     price: 4800
   },
   {
@@ -81,6 +103,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_06.png',
     title: '크림치즈 스틱',
+    eng_title: 'Cream Cheese Stix',
+    info: '스틱 안에 따뜻한 크림치즈가 듬뿍! 담백하고 부드러운 맛의 크림치즈 스틱',
     price: 5600
   },
   {
@@ -88,6 +112,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_07.png',
     title: '아몬드 크림치즈 스틱',
+    eng_title: 'Almond Cream Cheese Stix',
+    info: '바삭한 아몬드 크런치 토핑이 올려진 스틱안에 따뜻한 크림치즈가 듬뿍! 부드럽고 달콤한 맛의 아몬드 크림치즈 스틱',
     price: 5800
   },
   {
@@ -95,6 +121,8 @@ export const products = [
     category: 'stick',
     image: process.env.PUBLIC_URL + '/images/stick_08.png',
     title: '소금빵 크림치즈 스틱',
+    eng_title: 'Salted Bread Cream Cheese Stix',
+    info: '버터의 고소함과 소금의 짭짤함이 더해져 풍미 가득 돌아온 앤티앤스 프레즐만의 소금빵 크림치즈 스틱',
     price: 5800
   },
   {
@@ -102,6 +130,8 @@ export const products = [
     category: 'hotdog',
     image: process.env.PUBLIC_URL + '/images/hotdog_01.png',
     title: '오리지널 핫도그',
+    eng_title: 'Original Hot dog',
+    info: '짭짤하고 오동통한 소시지에 프레즐 반죽을 돌돌말아 만들어 입안 가득 씹히는 맛이 일품인 핫도그',
     price: 5600
   },
   {
@@ -109,6 +139,8 @@ export const products = [
     category: 'hotdog',
     image: process.env.PUBLIC_URL + '/images/hotdog_02.png',
     title: '할라피뇨 치즈 핫도그',
+    eng_title: 'Jalapeno Cheese Hot dog',
+    info: '오동통한 소시지를 넣은 핫도그에 치즈와 할라피뇨가 어우러져 짭짤하고 매콤한 맛의 할라피뇨 치즈 핫도그',
     price: 6000
   },
   {
@@ -116,34 +148,44 @@ export const products = [
     category: 'hotdog',
     image: process.env.PUBLIC_URL + '/images/hotdog_03.png',
     title: '블랙페퍼 치즈 핫도그',
+    eng_title: 'Black Pepper Cheese Hot dog',
+    info: '매콤한 블랙페퍼 소시지와 담백한 프레즐 도우가 어우러진 블랙페퍼 치즈 핫도그',
     price: 6000
   },
   {
     id: 'pro18',
     category: 'dip',
     image: process.env.PUBLIC_URL + '/images/dip_01.png',
-    title: '체다치즈',
+    title: '체다치즈 딥',
+    eng_title: 'Cheddar Cheese Dip',
+    info: '고소한 체다치즈의 진한 풍미가 느껴지는 체다치즈 딥 소스',
     price: 1500
   },
   {
     id: 'pro19',
     category: 'dip',
     image: process.env.PUBLIC_URL + '/images/dip_02.png',
-    title: '크림치즈',
+    title: '크림치즈 딥',
+    eng_title: 'Cream Cheese Dip',
+    info: '크림과 치즈가 만나 담백하고 부드러운 식감의 크림치즈 딥 소스',
     price: 1500
   },
   {
     id: 'pro20',
     category: 'dip',
     image: process.env.PUBLIC_URL + '/images/dip_03.png',
-    title: '핫살사 치즈',
+    title: '핫살사 치즈 딥',
+    eng_title: 'Hot Salsa Cheese Dip',
+    info: '체다치즈에 홍피망을 첨가해 고소하고 매콤한 핫살사 치즈 딥 소스',
     price: 1500
   },
   {
     id: 'pro21',
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_01.png',
-    title: '레몬에이드',
+    title: 'Lemonade',
+    eng_title: '상큼한 레몬을 짜서 만든 시원한 무탄산 레몬에이드',
+    info: '',
     price: 3800
   },
   {
@@ -151,6 +193,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_02.png',
     title: '제로 레몬에이드',
+    eng_title: 'Zero Lemonade',
+    info: 'zero sugar로 더 건강하고 부담없이 즐기는 무탄산 레몬에이드',
     price: 3800
   },
   {
@@ -158,6 +202,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_03.png',
     title: '블루 큐라소 레몬에이드',
+    eng_title: 'Blue Curacao Lemonade',
+    info: '블루큐라소 시럽으로 청량감을 더한 무탄산 블루큐라소 레몬에이드',
     price: 4200
   },
   {
@@ -165,6 +211,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_04.png',
     title: '스트로베리 레몬에이드',
+    eng_title: 'Strawberry Lemonade',
+    info: '딸기 맛이 어우러져 새콤달콤한 맛의 무탄산 스트로베리 레몬에이드',
     price: 4200
   },
   {
@@ -172,6 +220,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_05.png',
     title: '키위바나나 레몬에이드',
+    eng_title: 'Kiwi&Banana Lemonade',
+    info: '키위&바나나 맛이 어우러진 부드럽고 달콤한 무탄산 키위&바나나 레몬에이드',
     price: 4200
   },
   {
@@ -179,6 +229,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_06.png',
     title: '청포도 레몬에이드',
+    eng_title: 'Greengrape Lemonade',
+    info: '레몬에이드에 달콤한 청포도 알갱이가 씹혀 더 리얼한 청포도레몬에이드',
     price: 4800
   },
   {
@@ -186,6 +238,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_07.png',
     title: '자몽 레몬에이드',
+    eng_title: 'Grapefruit Lemonade',
+    info: '레몬에이드에 달콤 쌉싸름한 자몽 알갱이가 씹혀 더 리얼한 자몽레몬에이드',
     price: 4800
   },
   {
@@ -193,6 +247,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_08.png',
     title: '유자에이드',
+    eng_title: 'Citronade',
+    info: '향긋한 유자의 맛과 향이 풍부한 무탄산 유자에이드',
     price: 3800
   },
   {
@@ -200,6 +256,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_09.png',
     title: '피치 유자에이드',
+    eng_title: 'Peach Citronade',
+    info: '복숭아 맛과 유자가 어우러진 부드럽고 달콤한 피치 유자에이드',
     price: 4200
   },
   {
@@ -207,6 +265,8 @@ export const products = [
     category: 'drink',
     image: process.env.PUBLIC_URL + '/images/drink_10.png',
     title: '애플 유자에이드',
+    eng_title: 'Apple Citronade',
+    info: '청사과 맛과 유자가 어우러진 새콤달콤한 애플 유자에이드',
     price: 4200
   },
 ]

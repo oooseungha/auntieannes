@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 // ------------------------ Data & Components
 import { products } from '../data/subData';
+import SubModal from './SubModal';
+
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
@@ -11,14 +13,25 @@ import { SubWrap } from '../../components/StyledComponents';
 export default function SubClassic() {
 
   const [subClassic] = useState(products.filter(item => item.category.includes('classic')));
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
 
   return (
     <SubWrap>
+      {selectedProduct && (
+        <SubModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
       {
         subClassic.map((classic, index) => {
           return (
-            <div className='sub_box'>
+            <div
+              key={classic.id}
+              className='sub_box'
+              onClick={() => setSelectedProduct(classic)}
+            >
               <div>
                 <img src={classic.image} />
               </div>
