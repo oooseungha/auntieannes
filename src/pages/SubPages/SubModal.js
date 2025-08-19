@@ -1,16 +1,23 @@
 // ------------------------ React
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // ------------------------ Router
 import { useParams } from 'react-router-dom';
 
 
+import { products } from '../data/subData.js'
+
 // ------------------------ Redux & slice
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  incrementByAmount as incrementOne, 
+  decrementByAmount as decrementOne, 
+  setCount as setOne
+ } from '../../redux/optionCountOneSlice.js';
+import { addItem } from '../../redux/cartSlice.js';
+import { increment, decrement, setCount } from '../../redux/dipOptionSlice.js';
 
 
-// ------------------------ CSS
-import SubModalStyle from './SubModal.module.css'
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
@@ -28,6 +35,7 @@ const SubModalWrap = styled.div`
     border-radius: 30px;
     margin: 150px auto 0 auto;
     padding-top: 30px;
+    position: relative;
     .modal_img {
       width: 400px;
       margin: 30px auto;
@@ -96,9 +104,11 @@ const ModalOptionWrap = styled.div`
 
 const OptionBtnWrap = styled.div`
   width: 410px;
-  margin: 50px auto 0 auto;
+  // margin: 50px auto 0 auto;
   display: flex;
   justify-content: center;
+  position: absolute;
+  left: calc(50% - 205px); bottom: 100px;
 
   button {
     width: 200px; height: 80px;
@@ -141,6 +151,22 @@ const ModalOptionPrice = styled.li`
 `
 
 export default function SubModal({product, onClose}) {
+
+  const dispatch = useDispatch();
+
+  const proCount = useSelector((state) => state.optionCounterOne.value);
+  const proTotalPrice = proCount * product.price;
+  const dipOption = useSelector((state) => state.dipOption);
+
+  const cheddaTotalPrice = (dipOption.chedda || 0) * 1500;
+  const creamTotalPrice = dipOption.cream * 1500;
+  const hotSalsaTotalPrice = dipOption.hotSalsa * 1500;
+
+  useEffect(() => {
+    dispatch(setOne(1))
+    dispatch(setCount({chedda: 0, cream: 0, hotSalsa: 0}))
+  }, [dispatch]);
+
   return (
     <SubModalWrap>
       <div className='sub_modal'>
@@ -154,58 +180,103 @@ export default function SubModal({product, onClose}) {
         </div>
 
         <ModalBtnBox>
-          <MinusBtn />
-          <span>1</span>
-          <PlusBtn />
-          <span>0000원</span>
+          <MinusBtn
+            disabled={dipOption <= 1}
+            onClick = {() => dispatch(decrementOne(1))}
+          />
+          <span>{proCount}</span>
+          <PlusBtn
+            onClick = {() => dispatch(incrementOne(1))}
+          />
+          <span>{proTotalPrice.toLocaleString()}원</span>
         </ModalBtnBox>
 
-        <ModalOptionWrap>
-          <p className='modal_option_title'>딥소스 추가</p>
-          <ul>
-            <li className='modal_option_img'>
-              <img src={process.env.PUBLIC_URL + '/images/modal_dip_01.png'} />
-            </li>
-            <li className='modal_option_name'>체다치즈 딥</li>
-            <ModalOptionBtn>
-              <MinusBtn />
-              <span>1</span>
-              <PlusBtn />
-            </ModalOptionBtn>
-            <ModalOptionPrice>0000원</ModalOptionPrice>
-          </ul>
-          <ul>
-            <li className='modal_option_img'>
-              <img src={process.env.PUBLIC_URL + '/images/modal_dip_02.png'} />
-            </li>
-            <li className='modal_option_name'>크림치즈 딥</li>
-            <ModalOptionBtn>
-              <MinusBtn />
-              <span>1</span>
-              <PlusBtn />
-            </ModalOptionBtn>
-            <ModalOptionPrice>0000원</ModalOptionPrice>
-          </ul>
-          <ul>
-            <li className='modal_option_img'>
-              <img src={process.env.PUBLIC_URL + '/images/modal_dip_03.png'} />
-            </li>
-            <li className='modal_option_name'>핫살사 치즈 딥</li>
-            <ModalOptionBtn>
-              <MinusBtn />
-              <span>1</span>
-              <PlusBtn />
-            </ModalOptionBtn>
-            <ModalOptionPrice>0000원</ModalOptionPrice>
-          </ul>
-        </ModalOptionWrap>
+        {!(product.category === 'dip' || product.category === 'drink') && (
+          
+          <ModalOptionWrap>
+            <p className='modal_option_title'>딥소스 추가</p>
+            <ul>
+              <li className='modal_option_img'>
+                <img src={process.env.PUBLIC_URL + '/images/modal_dip_01.png'} />
+              </li>
+              <li className='modal_option_name'>
+                <p>체다치즈 딥</p>
+                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
+              </li>
+              <ModalOptionBtn>
+                <MinusBtn
+                  disabled={dipOption.chedda <= 0}
+                  onClick={() => dispatch(decrement('chedda'))}
+                />
+                <span>{dipOption.chedda}</span>
+                <PlusBtn
+                  onClick={() => dispatch(increment({option: 'chedda', amount: 1}))}
+                />
+              </ModalOptionBtn>
+              <ModalOptionPrice>{cheddaTotalPrice.toLocaleString()}원</ModalOptionPrice>
+            </ul>
+            <ul>
+              <li className='modal_option_img'>
+                <img src={process.env.PUBLIC_URL + '/images/modal_dip_02.png'} />
+              </li>
+              <li className='modal_option_name'>
+                <p>크림치즈 딥</p>
+                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
+              </li>
+              <ModalOptionBtn>
+                <MinusBtn
+                  disabled={dipOption.chedda <= 0}
+                  onClick={() => dispatch(decrement('cream'))}
+                />
+                <span>{dipOption.cream}</span>
+                <PlusBtn
+                  onClick={() => dispatch(increment({option: 'cream', amount: 1}))}
+                />
+              </ModalOptionBtn>
+              <ModalOptionPrice>{creamTotalPrice.toLocaleString()}원</ModalOptionPrice>
+            </ul>
+            <ul>
+              <li className='modal_option_img'>
+                <img src={process.env.PUBLIC_URL + '/images/modal_dip_03.png'} />
+              </li>
+              <li className='modal_option_name'>
+                <p>핫살사 치즈 딥</p>
+                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
+              </li>
+              <ModalOptionBtn>
+                <MinusBtn
+                  disabled={dipOption.chedda <= 0}
+                  onClick={() => dispatch(decrement('hotSalsa'))}
+                />
+                <span>{dipOption.hotSalsa}</span>
+                <PlusBtn
+                  onClick={() => dispatch(increment({option: 'hotSalsa', amount: 1}))}
+                />
+              </ModalOptionBtn>
+              <ModalOptionPrice>{hotSalsaTotalPrice.toLocaleString()}원</ModalOptionPrice>
+            </ul>
+          </ModalOptionWrap>
+
+        )}
 
         <OptionBtnWrap>
           <button
             className='prev_btn'
             onClick={onClose}
           >이전으로</button>
-          <button className='select_btn'>선택 완료</button>
+          <button
+            className='select_btn'
+            onClick={() => {
+              dispatch(addItem({
+                id: product.id,
+                title: product.title,
+                count: proCount,
+                price: product.price,
+                options: ['chedda','cream','hotSalsa']
+              }))
+              onClose();
+            }}
+          >선택 완료</button>
         </OptionBtnWrap>
 
       </div>

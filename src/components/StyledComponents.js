@@ -54,9 +54,10 @@ export const MinusBtn = styled.button`
 `
 
 export const DelBtn = styled.button`
-  width: 94px; height: 50px;
+  width: 150px; height: 80px;
   background-color: #999;
   color: white;
   border: none;
   border-radius: 50px;
+  font-size: 24px;
 `

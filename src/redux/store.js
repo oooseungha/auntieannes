@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import countReducer from './counterSlice';
+import countOneReducer from './optionCountOneSlice';
 import cartReducer from './cartSlice';
+import dipOptionReducer from './dipOptionSlice';
 
 const store = configureStore({
   reducer: {
-    // counter: countReducer,
+    optionCounterOne: countOneReducer,
     cart: cartReducer,
+    dipOption: dipOptionReducer,
   }
 });
 

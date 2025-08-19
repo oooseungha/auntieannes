@@ -7,7 +7,8 @@ const cart = createSlice({
     addItem(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload.id)
       if (index > -1) {
-        state[index].count++;
+        state[index].count += action.payload.count;
+        state[index].options = action.payload.options;
       } else {
         state.push(action.payload);
       }
@@ -19,14 +20,17 @@ const cart = createSlice({
     addCount(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload);
       state[index].count++;
-    },
+    }, // addCount
     subCount(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload);
       state[index].count--;
+    }, // subCount
+    clearCart: () => {
+      return [];
     }
   }
 });
 
-export const { addItem, deleteItem, addCount, subCount } = cart.actions;
+export const { addItem, deleteItem, addCount, subCount, clearCart } = cart.actions;
 export default cart.reducer;
 
