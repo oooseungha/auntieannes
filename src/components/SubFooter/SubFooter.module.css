@@ -98,6 +98,8 @@
   font-weight: bold;
   border: none;
   border-radius: 50px;
+  font-family: "Noto Sans KR", sans-serif;
+  letter-spacing: -1px;
 }
 .cart_btn_box button:first-child {
   margin-right: 10px;

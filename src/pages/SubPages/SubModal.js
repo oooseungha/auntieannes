@@ -1,11 +1,6 @@
 // ------------------------ React
 import React, { useEffect } from 'react';
 
-// ------------------------ Router
-import { useParams } from 'react-router-dom';
-
-
-import { products } from '../data/subData.js'
 
 // ------------------------ Redux & slice
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,10 +13,9 @@ import { addItem } from '../../redux/cartSlice.js';
 import { increment, decrement, setCount } from '../../redux/dipOptionSlice.js';
 
 
-
 // ------------------------ Styled-Components
 import styled from 'styled-components';
-import { PlusBtn, MinusBtn, DelBtn } from '../../components/StyledComponents';
+import { PlusBtn, MinusBtn, DelBtn, BtnBox } from '../../components/StyledComponents';
 
 const SubModalWrap = styled.div`
   width: 1070px; height: 1770px;
@@ -58,18 +52,6 @@ const SubModalWrap = styled.div`
       color: #666;
       text-align: center;
     }
-  }
-`
-
-const ModalBtnBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 610px;
-  margin: 30px auto;
-  span {
-    font-size: 40px;
-    font-weight: bold;
   }
 `
 
@@ -119,6 +101,7 @@ const OptionBtnWrap = styled.div`
     font-weight: bold;
     color: #666;
     letter-spacing: -1px;
+    font-family: "Noto Sans KR", sans-serif;
   }
   .prev_btn {
     margin-right: 10px;
@@ -179,9 +162,9 @@ export default function SubModal({product, onClose}) {
           <div><p className='modal_info'>{product.info}</p></div>
         </div>
 
-        <ModalBtnBox>
+        <BtnBox style={{width: '610px', margin: '30px auto', justifyContent: 'space-evenly'}}>
           <MinusBtn
-            disabled={dipOption <= 1}
+            disabled={proCount <= 1}
             onClick = {() => dispatch(decrementOne(1))}
           />
           <span>{proCount}</span>
@@ -189,7 +172,7 @@ export default function SubModal({product, onClose}) {
             onClick = {() => dispatch(incrementOne(1))}
           />
           <span>{proTotalPrice.toLocaleString()}원</span>
-        </ModalBtnBox>
+        </BtnBox>
 
         {!(product.category === 'dip' || product.category === 'drink') && (
           
@@ -270,6 +253,7 @@ export default function SubModal({product, onClose}) {
               dispatch(addItem({
                 id: product.id,
                 title: product.title,
+                image: product.image,
                 count: proCount,
                 price: product.price,
                 options: ['chedda','cream','hotSalsa']

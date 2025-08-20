@@ -1,11 +1,12 @@
 // ------------------------ React
-import React, { useEffect } from 'react';
+import React, { useEffect, } from 'react';
 
+// ------------------------ Router
+import { Link, useNavigate } from 'react-router-dom';
 
 // ------------------------ Redux & slice
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, deleteItem, addCount, subCount, clearCart } from '../../redux/cartSlice';
-
 
 // ------------------------ CSS
 import SubFooterStyle from './SubFooter.module.css'
@@ -23,6 +24,8 @@ export default function SubFooter() {
   const dispatch = useDispatch();
   const totalCount = state.cart.reduce((sum, item) => sum + item.count, 0)
   const totalPrice = state.cart.reduce((sum, item) => sum + item.price * item.count, 0)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(clearCart())
@@ -92,7 +95,10 @@ export default function SubFooter() {
           >
             전체 삭제
           </button>
-          <button className='cart_pay_btn'>결제</button>
+          <button
+            className='cart_pay_btn'
+            onClick={() => {navigate('/payment')}}
+          >결제</button>
         </div>
       </div>
     </div>

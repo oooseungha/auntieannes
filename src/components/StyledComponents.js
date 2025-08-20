@@ -41,6 +41,15 @@ export const SubWrap = styled.div`
   }
 `
 
+export const BtnBox = styled.div`
+  display: flex;
+  align-items: center;
+  span {
+    font-size: 40px;
+    font-weight: bold;
+  }
+`
+
 export const PlusBtn = styled.button`
   width: 60px; height: 60px;
   background-image: url(${plusBtn});
@@ -60,4 +69,6 @@ export const DelBtn = styled.button`
   border: none;
   border-radius: 50px;
   font-size: 24px;
+  letter-spacing: -1px;
+  font-family: "Noto Sans KR", sans-serif;
 `

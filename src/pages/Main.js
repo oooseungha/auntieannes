@@ -46,6 +46,7 @@ const MainWrap = styled.div`
           width: 302px; height: 107px;
           font-size: 30px;
           font-weight: 500;
+          font-family: "Noto Sans KR", sans-serif;
           letter-spacing: -1px;
           color: #333;
           background-color: white;
