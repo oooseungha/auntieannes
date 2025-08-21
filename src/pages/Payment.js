@@ -1,4 +1,5 @@
-import React from 'react'
+// ------------------------ React
+import React, { useState } from 'react';
 
 
 // ------------------------ Redux & slice
@@ -17,6 +18,7 @@ import { NavLink } from 'react-router-dom';
 
 // ------------------------ Pages & Components
 import Header from '../components/Header/Header'
+import PaymentModal from './PaymentModal';
 
 // ------------------------ 외부 라이브러리
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,7 +36,7 @@ const PaymentWrap = styled.div`
     font-size: 48px;
     text-align: center;
     font-weight: bold;
-    padding: 70px 0;
+    padding: 60px 0;
   }
 `
 const PaymentCart = styled.div`
@@ -158,8 +160,18 @@ export default function Payment() {
   const totalCount = cart.reduce((acc, item) => acc + item.count, 0);
   const totalPrice = cart.reduce((acc, item) => acc + item.count * item.price, 0);
 
+  const [selectedPayment, setSelectedPayment] = useState(null);
+
   return (
     <PaymentWrap>
+      {
+        selectedPayment && (
+          <PaymentModal
+            payment={selectedPayment}
+            onClose={() => setSelectedPayment(null)}
+          />
+        )
+      }
       <Header />
       <p className='payment_title'>주문 정보를 확인해 주세요.</p>
       <PaymentCart>
@@ -228,7 +240,7 @@ export default function Payment() {
               <p>이전 화면</p>
             </button>
           </NavLink>
-          <button>
+          <button onClick={() => setSelectedPayment("card")}>
             <FontAwesomeIcon
               icon={faCreditCard}
               className='button_icon'
@@ -236,7 +248,7 @@ export default function Payment() {
             <br />
             <p>카드 결제</p>
           </button>
-          <button>
+          <button onClick={() => setSelectedPayment("bill")}>
             <FontAwesomeIcon
               icon={faMoneyBillWave}
               className='button_icon'

@@ -10,7 +10,6 @@ import {
   setCount as setOne
  } from '../../redux/optionCountOneSlice.js';
 import { addItem } from '../../redux/cartSlice.js';
-import { increment, decrement, setCount } from '../../redux/dipOptionSlice.js';
 
 
 // ------------------------ Styled-Components
@@ -55,38 +54,8 @@ const SubModalWrap = styled.div`
   }
 `
 
-const ModalOptionWrap = styled.div`
-  width: 610px;
-  margin: 0 auto;
-  .modal_option_title {
-    width: 610px;
-    margin: 0 auto;
-    font-size: 32px;
-    color: #666;
-    font-weight: 500;
-    border-bottom: 1px solid #999;
-    text-align: center;
-    padding-bottom: 10px;
-  }
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .modal_option_img {
-      width: 90px;
-      float: left;
-    }
-    .modal_option_name {
-      width: 200px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  }
-`
-
 const OptionBtnWrap = styled.div`
   width: 410px;
-  // margin: 50px auto 0 auto;
   display: flex;
   justify-content: center;
   position: absolute;
@@ -158,7 +127,6 @@ export default function SubModal({product, onClose}) {
 
   useEffect(() => {
     dispatch(setOne(1))
-    // dispatch(setCount({chedda: 0, cream: 0, hotSalsa: 0}))
   }, [dispatch]);
 
   return (
