@@ -110,28 +110,44 @@ const OptionBtnWrap = styled.div`
     background-color: #10059F;
     color: white;
   }
-
 `
 
-const ModalOptionBtn = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 200px;
-  button {
-    width: 40px; height: 40px;
-    background-size: contain;
-  }
-  span {
+const ModalContent = styled.div `
+  width: 619px;
+  margin: 0 auto;
+  color: #666;
+  .modal_content_title {
     font-size: 24px;
+    line-height: 50px;
+    text-align: center;
     font-weight: bold;
+    border-bottom: 1px solid #999;
+    margin-top: 50px;
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    li {
+      margin-top: 10px;
+      width: calc(100% / 6);
+      text-align: center;
+      font-weight: bold;
+      font-size: 17px;
+    }
+  }
+  .nutrition_detail li p {
+    font-size: 24px;
+  }
+  .allergy_info {
+    margin-top: 50px;
+    p {
+      font-size: 24px;
+      text-align: center;
+      line-height: 50px;
+    }
   }
 `
-const ModalOptionPrice = styled.li`
-  width: 90px;
-  font-size: 20px;
-  text-align: center;
-`
+
 
 export default function SubModal({product, onClose}) {
 
@@ -139,15 +155,10 @@ export default function SubModal({product, onClose}) {
 
   const proCount = useSelector((state) => state.optionCounterOne.value);
   const proTotalPrice = proCount * product.price;
-  const dipOption = useSelector((state) => state.dipOption);
-
-  const cheddaTotalPrice = (dipOption.chedda || 0) * 1500;
-  const creamTotalPrice = dipOption.cream * 1500;
-  const hotSalsaTotalPrice = dipOption.hotSalsa * 1500;
 
   useEffect(() => {
     dispatch(setOne(1))
-    dispatch(setCount({chedda: 0, cream: 0, hotSalsa: 0}))
+    // dispatch(setCount({chedda: 0, cream: 0, hotSalsa: 0}))
   }, [dispatch]);
 
   return (
@@ -174,73 +185,31 @@ export default function SubModal({product, onClose}) {
           <span>{proTotalPrice.toLocaleString()}원</span>
         </BtnBox>
 
-        {!(product.category === 'dip' || product.category === 'drink') && (
-          
-          <ModalOptionWrap>
-            <p className='modal_option_title'>딥소스 추가</p>
+        <ModalContent>
+          <div className='nutrition_info'>
+            <div className='modal_content_title'><p>제품 영양 정보</p></div>
             <ul>
-              <li className='modal_option_img'>
-                <img src={process.env.PUBLIC_URL + '/images/modal_dip_01.png'} />
-              </li>
-              <li className='modal_option_name'>
-                <p>체다치즈 딥</p>
-                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
-              </li>
-              <ModalOptionBtn>
-                <MinusBtn
-                  disabled={dipOption.chedda <= 0}
-                  onClick={() => dispatch(decrement('chedda'))}
-                />
-                <span>{dipOption.chedda}</span>
-                <PlusBtn
-                  onClick={() => dispatch(increment({option: 'chedda', amount: 1}))}
-                />
-              </ModalOptionBtn>
-              <ModalOptionPrice>{cheddaTotalPrice.toLocaleString()}원</ModalOptionPrice>
+              <li><p>중량(g/ml)</p></li>
+              <li><p>열량(Kcal)</p></li>
+              <li><p>당류(g)</p></li>
+              <li><p>단백질g(%)</p></li>
+              <li><p>포화지방g(%)</p></li>
+              <li><p>나트륨mg(%)</p></li>
             </ul>
-            <ul>
-              <li className='modal_option_img'>
-                <img src={process.env.PUBLIC_URL + '/images/modal_dip_02.png'} />
-              </li>
-              <li className='modal_option_name'>
-                <p>크림치즈 딥</p>
-                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
-              </li>
-              <ModalOptionBtn>
-                <MinusBtn
-                  disabled={dipOption.chedda <= 0}
-                  onClick={() => dispatch(decrement('cream'))}
-                />
-                <span>{dipOption.cream}</span>
-                <PlusBtn
-                  onClick={() => dispatch(increment({option: 'cream', amount: 1}))}
-                />
-              </ModalOptionBtn>
-              <ModalOptionPrice>{creamTotalPrice.toLocaleString()}원</ModalOptionPrice>
+            <ul className='nutrition_detail'>
+              <li><p>{product.weight}</p></li>
+              <li><p>{product.calories}</p></li>
+              <li><p>{product.sugars}</p></li>
+              <li><p>{product.protein}</p></li>
+              <li><p>{product.fat}</p></li>
+              <li><p>{product.sodium}</p></li>
             </ul>
-            <ul>
-              <li className='modal_option_img'>
-                <img src={process.env.PUBLIC_URL + '/images/modal_dip_03.png'} />
-              </li>
-              <li className='modal_option_name'>
-                <p>핫살사 치즈 딥</p>
-                <p style={{fontSize: '18px', color: '#666', fontWeight: 400}}>1,500원</p>
-              </li>
-              <ModalOptionBtn>
-                <MinusBtn
-                  disabled={dipOption.chedda <= 0}
-                  onClick={() => dispatch(decrement('hotSalsa'))}
-                />
-                <span>{dipOption.hotSalsa}</span>
-                <PlusBtn
-                  onClick={() => dispatch(increment({option: 'hotSalsa', amount: 1}))}
-                />
-              </ModalOptionBtn>
-              <ModalOptionPrice>{hotSalsaTotalPrice.toLocaleString()}원</ModalOptionPrice>
-            </ul>
-          </ModalOptionWrap>
-
-        )}
+          </div>
+          <div className='allergy_info'>
+            <div className='modal_content_title'><p>알레르기 성분</p></div>
+            <p>{product.allergens}</p>
+          </div>
+        </ModalContent>
 
         <OptionBtnWrap>
           <button
@@ -256,7 +225,6 @@ export default function SubModal({product, onClose}) {
                 image: product.image,
                 count: proCount,
                 price: product.price,
-                options: ['chedda','cream','hotSalsa']
               }))
               onClose();
             }}
