@@ -22,27 +22,29 @@ import { products } from './pages/data/subData'
 
 // ------------------------ Styled-Components
 import styled from 'styled-components';
-import { KioskWrap } from './components/StyledComponents';
+import { KioskWrap, KioskWrapper } from './components/StyledComponents';
 
 
 function App() {
 
   return (
     <div className="App">
-      <KioskWrap>
-        <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/sub/*' element={<Sub />}>
-            <Route index element={<Navigate to='classic' replace />} />
-            <Route path='classic' element={<SubClassic products={products} />} />
-            <Route path='stick' element={<SubStick products={products} />} />
-            <Route path='hotdog' element={<SubHotdog products={products} />} />
-            <Route path='dip' element={<SubDip products={products} />} />
-            <Route path='drink' element={<SubDrink products={products} />} />
-          </Route>
-          <Route path='payment' element={<Payment />} />
-        </Routes>
-      </KioskWrap>
+      <KioskWrapper>
+        <KioskWrap>
+          <Routes>
+            <Route path='/' element={<Main />} />
+            <Route path='/sub/*' element={<Sub />}>
+              <Route index element={<Navigate to='classic' replace />} />
+              <Route path='classic' element={<SubClassic products={products} />} />
+              <Route path='stick' element={<SubStick products={products} />} />
+              <Route path='hotdog' element={<SubHotdog products={products} />} />
+              <Route path='dip' element={<SubDip products={products} />} />
+              <Route path='drink' element={<SubDrink products={products} />} />
+            </Route>
+            <Route path='payment' element={<Payment />} />
+          </Routes>
+        </KioskWrap>
+      </KioskWrapper>
     </div>
   );
 }

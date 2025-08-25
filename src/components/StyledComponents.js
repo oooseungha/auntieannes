@@ -6,16 +6,21 @@ import plusBtn from '../images/plus_btn.png';
 import minusBtn from '../images/minus_btn.png';
 import minusBtnDisabled from '../images/minus_btn_disabled.png';
 
+
+// ★★ 개발용 임시 사이즈 조정 (PC에 맞게)
+export const KioskWrapper = styled.div`
+  width: 100%; height: 150vh;
+  display: flex;
+  justify-content: center;
+`;
 export const KioskWrap = styled.div`
   width: 1070px; height: 1920px;
   margin: 0 auto;
   position: relative;
-
-  // ★★★ 개발용 임시 미디어쿼리
-  // @media screen and (max-width: 3000px) {
-  //   transform: scale(0.4);
-  //   transform-origin: top left;
-  // }
+  top: 0;
+  left: 0;
+  transform: scale(0.8);
+  transform-origin: top center;
 `
 
 export const SubWrap = styled.div`

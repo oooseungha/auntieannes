@@ -23,14 +23,14 @@ const SubModalWrap = styled.div`
   top: 150px; left: 0;
   z-index: 100;
   .sub_modal {
-    width: 822px; height: 1420px;
+    width: 822px; height: 1220px;
     background-color: #eee;
     border-radius: 30px;
     margin: 150px auto 0 auto;
-    padding-top: 30px;
+    padding-top: 20px;
     position: relative;
     .modal_img {
-      width: 400px;
+      width: 300px;
       margin: 30px auto;
     }
     .modal_eng_title {
