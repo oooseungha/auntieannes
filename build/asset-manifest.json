@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/auntieannes/static/css/main.b00901e0.css",
-    "main.js": "/auntieannes/static/js/main.e593a4b5.js",
+    "main.js": "/auntieannes/static/js/main.fd299d1b.js",
     "static/js/453.3b5c8899.chunk.js": "/auntieannes/static/js/453.3b5c8899.chunk.js",
     "index.html": "/auntieannes/index.html",
     "main.b00901e0.css.map": "/auntieannes/static/css/main.b00901e0.css.map",
-    "main.e593a4b5.js.map": "/auntieannes/static/js/main.e593a4b5.js.map",
+    "main.fd299d1b.js.map": "/auntieannes/static/js/main.fd299d1b.js.map",
     "453.3b5c8899.chunk.js.map": "/auntieannes/static/js/453.3b5c8899.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b00901e0.css",
-    "static/js/main.e593a4b5.js"
+    "static/js/main.fd299d1b.js"
   ]
 }

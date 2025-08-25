@@ -44,6 +44,22 @@ const PaymentCart = styled.div`
   margin: 0 10px 20px 10px;
   background-color: #eee;
   border-radius: 30px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  
+  &::-webkit-overflow-scrolling: touch; 
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #eee;
+    border-radius: 30px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc; 
+    border-radius: 30px;
+  }
 
   .cart_sort {
     display: flex;

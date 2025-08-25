@@ -1,8 +1,8 @@
 // ------------------------ React
-import React, { useEffect, } from 'react';
+import React from 'react';
 
 // ------------------------ Router
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // ------------------------ Redux & slice
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,16 +20,13 @@ import { PlusBtn, MinusBtn, DelBtn } from '../StyledComponents';
 
 export default function SubFooter() {
 
-  const state = useSelector((state) => state);
+  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const totalCount = state.cart.reduce((sum, item) => sum + item.count, 0)
-  const totalPrice = state.cart.reduce((sum, item) => sum + item.price * item.count, 0)
+
+  const totalCount = cart.reduce((sum, item) => sum + item.count, 0)
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.count, 0)
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(clearCart())
-  }, [dispatch]);
 
 
 
@@ -46,28 +43,28 @@ export default function SubFooter() {
 
       <div className={SubFooterStyle.cart_list}>
         {
-          state.cart.map((item, i) => {
+          cart.map((item,i) => {
             return(
-              <ul>
-                <li>{state.cart[i].title}</li>
+              <ul key={item.id}>
+                <li>{item.title}</li>
                 <li>
                   <MinusBtn
-                    disabled={state.cart[i].count <= 1}
+                    disabled={item.count <= 1}
                     onClick={() => {
-                        if (state.cart[i].count > 1) {
-                          dispatch(subCount(state.cart[i].id));
+                        if (item.count > 1) {
+                          dispatch(subCount(item.id));
                         }
                       }}
                   />
-                  <span>{state.cart[i].count}</span>
+                  <span>{item.count}</span>
                   <PlusBtn
-                    onClick={() => dispatch(addCount(state.cart[i].id))}
+                    onClick={() => dispatch(addCount(item.id))}
                   />
                 </li>
-                <li>{(state.cart[i].price * state.cart[i].count).toLocaleString()}원</li>
+                <li>{(item.price * item.count).toLocaleString()}원</li>
                 <li>
                   <DelBtn
-                    onClick={() => dispatch(deleteItem(state.cart[i].id))}
+                    onClick={() => dispatch(deleteItem(item.id))}
                   >삭제</DelBtn>
                 </li>
               </ul>
@@ -96,8 +93,13 @@ export default function SubFooter() {
             전체 삭제
           </button>
           <button
-            className='cart_pay_btn'
-            onClick={() => {navigate('/payment')}}
+            className={SubFooterStyle.cart_pay_btn}
+            disabled={cart.length === 0}
+            onClick={() => {
+              if(cart.length > 0) {
+                navigate('/payment');
+              }
+            }}
           >결제</button>
         </div>
       </div>

@@ -18,7 +18,20 @@
   height: 300px;
   background-color: #eee;
   overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #eee;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; 
 }
+.cart_list::-webkit-scrollbar {
+  width: 12px;
+}
+.cart_list::-webkit-scrollbar-track {
+  background: #eee;
+  border-radius: 30px;
+}
+
+
 .cart_list ul {
   display: flex;
   margin: 10px 0;
@@ -106,7 +119,11 @@
   color: #666;
   background-color: #eee;
 }
-.cart_btn_box button:last-child {
+.cart_pay_btn {
   color: white;
   background-color: #10059F;
+}
+.cart_pay_btn:disabled {
+  color: #eee;
+  background-color: #ccc;
 }

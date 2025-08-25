@@ -52,11 +52,11 @@ export default function Sub() {
     <div>
       <Header />
       <KioskGnb>
-        <li><GnbMenu to='/sub/classic' active={path.includes('/sub/classic')}><span>클래식 프레즐</span></GnbMenu></li>
-        <li><GnbMenu to='/sub/stick' active={path.includes('/sub/stick')}><span>스틱 프레즐</span></GnbMenu></li>
-        <li><GnbMenu to='/sub/hotdog' active={path.includes('/sub/hotdog')}><span>핫도그</span></GnbMenu></li>
-        <li><GnbMenu to='/sub/dip' active={path.includes('/sub/dip')}><span>딥</span></GnbMenu></li>
-        <li><GnbMenu to='/sub/drink' active={path.includes('/sub/drink')}><span>음료</span></GnbMenu></li>
+        <li><GnbMenu to='/sub/classic'><span>클래식 프레즐</span></GnbMenu></li>
+        <li><GnbMenu to='/sub/stick'><span>스틱 프레즐</span></GnbMenu></li>
+        <li><GnbMenu to='/sub/hotdog'><span>핫도그</span></GnbMenu></li>
+        <li><GnbMenu to='/sub/dip'><span>딥</span></GnbMenu></li>
+        <li><GnbMenu to='/sub/drink'><span>음료</span></GnbMenu></li>
       </KioskGnb>
 
       <Outlet />
