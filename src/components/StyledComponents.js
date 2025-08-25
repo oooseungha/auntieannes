@@ -9,7 +9,7 @@ import minusBtnDisabled from '../images/minus_btn_disabled.png';
 
 // ★★ 개발용 임시 사이즈 조정 (PC에 맞게)
 export const KioskWrapper = styled.div`
-  width: 100%; height: 150vh;
+  width: 100%; height: 125vh;
   display: flex;
   justify-content: center;
 `;
@@ -17,8 +17,7 @@ export const KioskWrap = styled.div`
   width: 1070px; height: 1920px;
   margin: 0 auto;
   position: relative;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   transform: scale(0.8);
   transform-origin: top center;
 `
