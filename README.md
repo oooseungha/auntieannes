@@ -1,70 +1,259 @@
-# Getting Started with Create React App
+# React 기반 AUNTIE ANNE'S Kiosk 제작 프로젝트
+매장에서 사용하는 키오스크 환경을 가정하여 React 기반 Auntie Anne’s 프레첼 키오스크 앱 개발
+<br/><br/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 🌐 프로젝트 소개
+React를 기반으로 키오스크 앱을 제작하여 고객이 매장에서 손쉽게 주문할 수 있는 환경 제공하고,
+매장용 키오스크 특화 UI/UX를 설계하여 실시간 메뉴 선택부터 장바구니 관리 구현한 React App입니다.
+<br/><br/>
 
-## Available Scripts
+### 📅 기획/개발 기간
+- 25.08.08. ~ 25.08.22.  
+- 디자인·개발 2주
+<br/><br/>
 
-In the project directory, you can run:
+### 💡 기획의도
+**문제점**
+- 기존 키오스크 시스템의 제한적 UI로 주문 과정이 복잡하고 비직관적
 
-### `npm start`
+**개선 방향**
+- 고객이 빠르고 직관적으로 메뉴를 탐색하고 주문할 수 있도록 UI 단순화
+- 장바구니 실시간 확인 가능
+- 포인트 컬러와 브랜드 아이덴티티를 반영해 매장 친화적 경험 제공
+<br/><br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📍 프로젝트 목표
+- 매장 환경에 최적화된 키오스크 UI/UX 설계
+- 메뉴 선택 -> 장바구니 -> 결제까지 자연스러운 주문 흐름 제공
+- React Router와 Redux를 활용하여 앱 구조 안정성 및 상태 관리 효율화
+- 컴포넌트 기반 구조로 유지보수 및 기능 확장 용이
+- 브랜드 아이덴티티와 활기찬 매장 이미지를 포인트 컬러 및 시각적 요소로 강화
+<br/><br/>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📐 디자인 가이드
+<img width="1080" height="1920" alt="Image" src="https://github.com/user-attachments/assets/46948db0-9aae-4081-a37b-474e88c321ef" />
+<br/><br/>
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🛠️ 코드 리뷰
+(1) Router
+```javascript
 
-### `npm run build`
+// App.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+function App() {
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return (
+    <div className="App">
+      <KioskWrapper>
+        <KioskWrap>
+          <Routes>
+            <Route path='/' element={<Main />} />
+            <Route path='/sub/*' element={<Sub />}>
+              <Route index element={<Navigate to='classic' replace />} />
+              <Route path='classic' element={<SubClassic products={products} />} />
+              <Route path='stick' element={<SubStick products={products} />} />
+              <Route path='hotdog' element={<SubHotdog products={products} />} />
+              <Route path='dip' element={<SubDip products={products} />} />
+              <Route path='drink' element={<SubDrink products={products} />} />
+            </Route>
+            <Route path='payment' element={<Payment />} />
+          </Routes>
+        </KioskWrap>
+      </KioskWrapper>
+    </div>
+  );
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+(2) Redux
+```javascript
+// redux > cartSlice.js
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+import { createSlice } from "@reduxjs/toolkit";
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const cart = createSlice({
+  name: 'cart',
+  initialState: [],
+  reducers: {
+    addItem(state, action) {
+      const index = state.findIndex((findId) => findId.id === action.payload.id)
+      if (index > -1) {
+        state[index].count += action.payload.count;
+        state[index].options = action.payload.options;
+      } else {
+        state.push(action.payload);
+      }
+    }, // addItem
+    deleteItem(state, action) {
+      const index = state.findIndex((findId) => findId.id === action.payload);
+      state.splice(index, 1);
+    }, // deleteItem
+    addCount(state, action) {
+      const index = state.findIndex((findId) => findId.id === action.payload);
+      state[index].count++;
+    }, // addCount
+    subCount(state, action) {
+      const index = state.findIndex((findId) => findId.id === action.payload);
+      state[index].count--;
+    }, // subCount
+    clearCart: () => {
+      return [];
+    }
+  }
+});
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export const { addItem, deleteItem, addCount, subCount, clearCart } = cart.actions;
+export default cart.reducer;
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```javascript
 
-## Learn More
+// redux > optionCountOneSlice.js
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+import { createSlice } from "@reduxjs/toolkit";
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const optionCounterOne = createSlice({
+  name: 'optionCounterOne',
+  initialState: {value: 1},
+  reducers: {
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    },
+    decrementByAmount: (state, action) => {
+      state.value -= action.payload;
+    },
+    setCount: (state, action) => {
+      state.value = action.payload;
+    }
 
-### Code Splitting
+  },
+});
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+export const { incrementByAmount, decrementByAmount, setCount } = optionCounterOne.actions;
+export default optionCounterOne.reducer;
+```
 
-### Analyzing the Bundle Size
+```javascript
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+// redux > store.js
 
-### Making a Progressive Web App
+import { configureStore } from "@reduxjs/toolkit";
+import countOneReducer from './optionCountOneSlice';
+import cartReducer from './cartSlice';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+const store = configureStore({
+  reducer: {
+    optionCounterOne: countOneReducer,
+    cart: cartReducer,
+  }
+});
 
-### Advanced Configuration
+export default store;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+``` javascript
+// copmonents > footer.js
 
-### Deployment
+      <div className={SubFooterStyle.cart_list}>
+        {
+          cart.map((item,i) => {
+            return(
+              <ul key={item.id}>
+                <li>{item.title}</li>
+                <li>
+                  <MinusBtn
+                    disabled={item.count <= 1}
+                    onClick={() => {
+                        if (item.count > 1) {
+                          dispatch(subCount(item.id));
+                        }
+                      }}
+                  />
+                  <span>{item.count}</span>
+                  <PlusBtn
+                    onClick={() => dispatch(addCount(item.id))}
+                  />
+                </li>
+                <li>{(item.price * item.count).toLocaleString()}원</li>
+                <li>
+                  <DelBtn
+                    onClick={() => dispatch(deleteItem(item.id))}
+                  >삭제</DelBtn>
+                </li>
+              </ul>
+            )
+          })
+        }
+      </div>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```javascript
 
-### `npm run build` fails to minify
+// pages > payment.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  <PaymentCart>
+    <ul className='cart_sort'>
+      <li>메뉴</li>
+      <li>수량</li>
+      <li>금액</li>
+      <li></li>
+    </ul>
+
+    {
+      cart.map((item) => {
+        const proTotalPrice = item.count * item.price;
+        return (
+          <CartList key={item.id}>
+            <li className='menu_name'>
+              <div><img src={item.image} /></div>
+              <p>{item.title}</p>
+            </li>
+            <li className='payment_amount_box'>
+              <BtnBox style={{width: '300px', justifyContent: 'space-between'}}>
+                <MinusBtn
+                  disabled={item.count <= 1}
+                  onClick = {() => dispatch(subCount(item.id))}
+                />
+                <span>{item.count}</span>
+                <PlusBtn
+                  onClick = {() => dispatch(addCount(item.id))}
+                />
+              </BtnBox>
+            </li>
+            <li className='payment_price'>
+              <span>{proTotalPrice.toLocaleString()}원</span>
+            </li>
+            <li className='payment_del_btn'>
+              <DelBtn
+                onClick={() => dispatch(deleteItem(item.id))}
+              >삭제</DelBtn>
+            </li>
+          </CartList>
+        )
+      })
+    }
+  </PaymentCart>
+
+  <CreditWrap>
+    <div className='payment_info'>
+      <ul>
+        <li className='payment_total_account'>총 수량</li>
+        <li className='payment_total_price'>{totalCount} 개</li>
+      </ul>
+      <ul>
+        <li className='payment_total_account'>총 결제 금액</li>
+        <li className='payment_total_price'>{totalPrice.toLocaleString()} 원</li>
+      </ul>
+    </div>
+```
+<br/><br/>
+
+### 🔍 코드 리뷰 요약
+- 
+<br><br/>
+
+### 🔹 학습 포인트
+- 
+<br/><br/>
