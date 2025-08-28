@@ -78,9 +78,12 @@ function App() {
   );
 }
 ```
+<br/>
 
-
-(2) Redux
+(2) Redux 전역 상태 관리 구성
+- Redux Toolkit을 활용해 장바구니, 옵션 수량 등 전역 상태를 일관되게 관리
+- cartSlice, optionCountSlice 등을 정의해 상품 추가/삭제, 수량 조절, 옵션 관리 상태를 전역으로 관리
+- useSelector, useDispatch를 활용해 컴포넌트 간 상태 공유 및 업데이트를 간소화
 ```javascript
 // redux > cartSlice.js
 
@@ -190,9 +193,11 @@ export default store;
 ``` javascript
 // copmonents > footer.js
 
+  // 장바구니 상태, dispatch 가져오기
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
+  // 장바구니 관련 데이터 계산
   const totalCount = cart.reduce((sum, item) => sum + item.count, 0)
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.count, 0)
 
@@ -201,7 +206,9 @@ export default store;
       cart.map((item,i) => {
         return(
           <ul key={item.id}>
+            {/* 상품명 */}
             <li>{item.title}</li>
+            {/* 수량 조절 버튼 */}
             <li>
               <MinusBtn
                 disabled={item.count <= 1}
@@ -216,7 +223,9 @@ export default store;
                 onClick={() => dispatch(addCount(item.id))}
               />
             </li>
+            {/* 가격 */}
             <li>{(item.price * item.count).toLocaleString()}원</li>
+            {/* 삭제 버튼 */}
             <li>
               <DelBtn
                 onClick={() => dispatch(deleteItem(item.id))}
@@ -233,67 +242,114 @@ export default store;
 
 // pages > payment.js
 
-  <PaymentCart>
-    <ul className='cart_sort'>
-      <li>메뉴</li>
-      <li>수량</li>
-      <li>금액</li>
-      <li></li>
-    </ul>
+  // 액션 실행용 dispatch
+  const dispatch = useDispatch();
+  // 장바구니 상태 호출
+  const cart = useSelector((state) => state.cart);
 
+  // 결제 페이지 관련 데이터 계산
+  const totalCount = cart.reduce((acc, item) => acc + item.count, 0);
+  const totalPrice = cart.reduce((acc, item) => acc + item.count * item.price, 0);
+
+  // 결제 수단 선택 모달 상태
+  const [selectedPayment, setSelectedPayment] = useState(null);
+
+  <PaymentWrap>
+    {/* 결제 수단이 선택되었을 때만 결제 모달 표시 */}
     {
-      cart.map((item) => {
-        const proTotalPrice = item.count * item.price;
-        return (
-          <CartList key={item.id}>
-            <li className='menu_name'>
-              <div><img src={item.image} /></div>
-              <p>{item.title}</p>
-            </li>
-            <li className='payment_amount_box'>
-              <BtnBox style={{width: '300px', justifyContent: 'space-between'}}>
-                <MinusBtn
-                  disabled={item.count <= 1}
-                  onClick = {() => dispatch(subCount(item.id))}
-                />
-                <span>{item.count}</span>
-                <PlusBtn
-                  onClick = {() => dispatch(addCount(item.id))}
-                />
-              </BtnBox>
-            </li>
-            <li className='payment_price'>
-              <span>{proTotalPrice.toLocaleString()}원</span>
-            </li>
-            <li className='payment_del_btn'>
-              <DelBtn
-                onClick={() => dispatch(deleteItem(item.id))}
-              >삭제</DelBtn>
-            </li>
-          </CartList>
-        )
-      })
+      selectedPayment && (
+        <PaymentModal
+          payment={selectedPayment}
+          onClose={() => setSelectedPayment(null)}
+        />
+      )
     }
-  </PaymentCart>
 
-  <CreditWrap>
-    <div className='payment_info'>
-      <ul>
-        <li className='payment_total_account'>총 수량</li>
-        <li className='payment_total_price'>{totalCount} 개</li>
+    {/* 장바구니 목록 영역 */}
+    <PaymentCart>
+      {/* 장바구니 테이블 헤더 */}
+      <ul className='cart_sort'>
+        <li>메뉴</li>
+        <li>수량</li>
+        <li>금액</li>
+        <li></li>
       </ul>
-      <ul>
-        <li className='payment_total_account'>총 결제 금액</li>
-        <li className='payment_total_price'>{totalPrice.toLocaleString()} 원</li>
-      </ul>
-    </div>
+
+      {/* 장바구니 아이템 출력 */}
+      {
+        cart.map((item) => {
+          // 각 상품의 총 금액 = 단가 * 수량
+          const proTotalPrice = item.count * item.price;
+
+          return (
+            <CartList key={item.id}>
+              <li className='menu_name'>
+                {/* 상품 정보(이미지 + 이름) */}
+                <div><img src={item.image} /></div>
+                <p>{item.title}</p>
+              </li>
+              {/* 수량 조절 버튼 */}
+              <li className='payment_amount_box'>
+                <BtnBox style={{width: '300px', justifyContent: 'space-between'}}>
+                  {/* 수량 감소 버튼 (1 이하일 땐 비활성화) */}
+                  <MinusBtn
+                    disabled={item.count <= 1}
+                    onClick = {() => dispatch(subCount(item.id))}
+                  />
+                  <span>{item.count}</span>
+                  {/* 수량 증가 버튼 */}
+                  <PlusBtn
+                    onClick = {() => dispatch(addCount(item.id))}
+                  />
+                </BtnBox>
+              </li>
+
+              {/* 상품 총 금액 */}
+              <li className='payment_price'>
+                <span>{proTotalPrice.toLocaleString()}원</span>
+              </li>
+
+              {/* 삭제 버튼 */}
+              <li className='payment_del_btn'>
+                <DelBtn
+                  onClick={() => dispatch(deleteItem(item.id))}
+                >삭제</DelBtn>
+              </li>
+            </CartList>
+          )
+        })
+      }
+    </PaymentCart>
+
+    {/* 결제 정보 요약 (총 수량 / 총 금액) */}
+    <CreditWrap>
+      <div className='payment_info'>
+        <ul>
+          <li className='payment_total_account'>총 수량</li>
+          <li className='payment_total_price'>{totalCount} 개</li>
+        </ul>
+        <ul>
+          <li className='payment_total_account'>총 결제 금액</li>
+          <li className='payment_total_price'>{totalPrice.toLocaleString()} 원</li>
+        </ul>
+      </div>
+  {/* --- 이후 다른 UI 생략 --- */}
+  </PaymentWrap>
+
 ```
-<br/><br/>
+<br/>
 
 ### 🔍 코드 리뷰 요약
-- 
+- Navigate를 통해 /sub 진입 시 기본 카테고리(classic)로 자동 리다이렉트 처리
+- Redux Toolkit 활용해 cartSlice로 장바구니 관리, optionCountOneSlice로 옵션 수량 상태 관리
+- Footer, Payment 페이지에서 장바구니 데이터 기반으로 총 수량, 총 금액 계산 및 UI 반영
+- 결제 페이지에서 모달 상태 관리로 결제 수단 선택 기능 구현
 <br><br/>
 
 ### 🔹 학습 포인트
-- 
+- React Router의 Outlet, Navigate를 통한 중첩 라우팅 패턴
+- 중첩 라우팅과 리다이렉트를 통한 사용자 흐름 제어 경험
+- 장바구니(추가, 삭제, 수량 증감) 같은 실무형 데이터 흐름을 Redux로 일관되게 관리하는 패턴 경험
+- useSelector, useDispatch를 통한 React-Redux 연동 방식 이해
+- 구조화된 상태 관리와 라우팅 설계가 유지보수성과 확장성 확보에 어떻게 기여하는지 경험
 <br/><br/>
