@@ -13,9 +13,10 @@ React를 기반으로 키오스크 앱을 제작하여 고객이 매장에서 �
 <br/><br/>
 
 ### 🛠️ 코드 리뷰
-(1) 키오스크 화면 라우터 구성
-- React Router를 활용해 키오스크 첫 화면, 카테고리별 상품 화면, 결제 화면 간 원활한 이동 구현
-- 중첩 라우트 및 Navigate를 활용해 기본 카테고리 리다이렉트 처리
+## (1) 키오스크 화면 구성 위해 App 컴포넌트에서 페이지 라우팅 구조 정의
+- 키오스크 관련 전체 레이아웃 안에서 주요 페이지 렌더링
+- /sub/* 경로에 중첩 라우팅 적용, 기본 인덱스는 classic 페이지로 리다이렉트
+- 각 메뉴별 하위 페이지(classic, stick, hotdog, dip, drink)에 products 데이터 props 전달
 
 ```javascript
 
@@ -25,28 +26,18 @@ function App() {
 
   return (
     <div className="App">
-
-      {/* 키오스크 전체 래퍼: 화면 중앙 배치 및 기본 스타일 적용 */}
       <KioskWrapper>
-        {/* 키오스크 콘텐츠 영역 컨테이너 */}
         <KioskWrap>
-
-          {/* 라우팅 설정 */}
           <Routes>
-            {/* 키오스크 첫 화면 */}
             <Route path='/' element={<Main />} />
-            {/* 서브 메뉴 화면(카테고리별 상품 리스트) */}
             <Route path='/sub/*' element={<Sub />}>
-              {/* /sub 접근 시 classic 카테고리로 이동 */}
               <Route index element={<Navigate to='classic' replace />} />
-              {/* 각 카테고리별 상품 페이지 */}
               <Route path='classic' element={<SubClassic products={products} />} />
               <Route path='stick' element={<SubStick products={products} />} />
               <Route path='hotdog' element={<SubHotdog products={products} />} />
               <Route path='dip' element={<SubDip products={products} />} />
               <Route path='drink' element={<SubDrink products={products} />} />
             </Route>
-            {/* 결제 화면 */}
             <Route path='payment' element={<Payment />} />
           </Routes>
         </KioskWrap>
@@ -57,53 +48,67 @@ function App() {
 ```
 <br/>
 
-(2) Redux 전역 상태 관리 구성
+## (2) Redux 전역 상태 관리 구성
 - Redux Toolkit을 활용해 장바구니, 옵션 수량 등 전역 상태를 일관되게 관리
 - cartSlice, optionCountSlice 등을 정의해 상품 추가/삭제, 수량 조절, 옵션 관리 상태를 전역으로 관리
 - useSelector, useDispatch를 활용해 컴포넌트 간 상태 공유 및 업데이트를 간소화
+- Footer 컴포넌트에서 장바구니 데이터 기반으로 총 수량, 총 금액 계산 및 UI 반영
 ```javascript
 // redux > cartSlice.js
 
-import { createSlice } from "@reduxjs/toolkit";
-
-// 장바구니 상태 관리 슬라이스
 const cart = createSlice({
   name: 'cart',
-  initialState: [], // 초기 상태: 빈 배열
+  initialState: [],
   reducers: {
-
-    // 장바구니에 아이템 추가
     addItem(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload.id)
       if (index > -1) {
-        // 이미 존재하면 수량 증가 및 옵션 업데이트
         state[index].count += action.payload.count;
         state[index].options = action.payload.options;
       } else {
-        // 새 아이템이면 배열에 추가
         state.push(action.payload);
       }
     },
+    // 이하 reducers(deleteItem, addCount, subCount) 생략
+    clearCart: () => {
+      return [];
+    }
+  }
+});
+```
 
-    // 장바구니에서 아이템 삭제
+<details>
+  <summary>🔎 cartSlice 요약 없이 전체 보기</summary>
+
+```javascript
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const cart = createSlice({
+  name: 'cart',
+  initialState: [],
+  reducers: {
+    addItem(state, action) {
+      const index = state.findIndex((findId) => findId.id === action.payload.id)
+      if (index > -1) {
+        state[index].count += action.payload.count;
+        state[index].options = action.payload.options;
+      } else {
+        state.push(action.payload);
+      }
+    },
     deleteItem(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload);
       state.splice(index, 1);
     },
-
-    // 아이템 수량 증가
     addCount(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload);
       state[index].count++;
     },
-
-    // 아이템 수량 감소
     subCount(state, action) {
       const index = state.findIndex((findId) => findId.id === action.payload);
       state[index].count--;
     },
-
-    // 장바구니 초기화
     clearCart: () => {
       return [];
     }
@@ -113,34 +118,48 @@ const cart = createSlice({
 export const { addItem, deleteItem, addCount, subCount, clearCart } = cart.actions;
 export default cart.reducer;
 ```
+  
+</details>
 
+```javascript
+
+// redux > optionCountOneSlice.js
+
+const optionCounterOne = createSlice({
+  name: 'optionCounterOne',
+  initialState: {value: 1},
+  reducers: {
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    },
+    // 이하 reducers(decrementByAmount, setCount) 생략
+  },
+});
+```
+
+<details>
+  <summary>🔎 optionCountOneSlice 요약 없이 전체 보기</summary>
+
+  
 ```javascript
 
 // redux > optionCountOneSlice.js
 
 import { createSlice } from "@reduxjs/toolkit";
 
-// 단일 옵션 카운트 상태 관리
 const optionCounterOne = createSlice({
   name: 'optionCounterOne',
-  initialState: {value: 1}, // 초기값 1
+  initialState: {value: 1},
   reducers: {
-
-    // 수량 증가
     incrementByAmount: (state, action) => {
       state.value += action.payload;
     },
-
-    // 수량 감소
     decrementByAmount: (state, action) => {
       state.value -= action.payload;
     },
-
-    // 수량 직접 설정
     setCount: (state, action) => {
       state.value = action.payload;
     }
-
   },
 });
 
@@ -148,33 +167,14 @@ export const { incrementByAmount, decrementByAmount, setCount } = optionCounterO
 export default optionCounterOne.reducer;
 ```
 
-```javascript
-
-// redux > store.js
-
-import { configureStore } from "@reduxjs/toolkit";
-import countOneReducer from './optionCountOneSlice';
-import cartReducer from './cartSlice';
-
-// redux store 생성, 각 슬라이스를 리듀서로 등록
-const store = configureStore({
-  reducer: {
-    optionCounterOne: countOneReducer,
-    cart: cartReducer,
-  }
-});
-
-export default store;
-```
+</details>
 
 ``` javascript
 // copmonents > footer.js
 
-  // 장바구니 상태, dispatch 가져오기
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  // 장바구니 관련 데이터 계산
   const totalCount = cart.reduce((sum, item) => sum + item.count, 0)
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.count, 0)
 
@@ -183,9 +183,7 @@ export default store;
       cart.map((item,i) => {
         return(
           <ul key={item.id}>
-            {/* 상품명 */}
             <li>{item.title}</li>
-            {/* 수량 조절 버튼 */}
             <li>
               <MinusBtn
                 disabled={item.count <= 1}
@@ -200,9 +198,7 @@ export default store;
                 onClick={() => dispatch(addCount(item.id))}
               />
             </li>
-            {/* 가격 */}
             <li>{(item.price * item.count).toLocaleString()}원</li>
-            {/* 삭제 버튼 */}
             <li>
               <DelBtn
                 onClick={() => dispatch(deleteItem(item.id))}
@@ -215,112 +211,6 @@ export default store;
   </div>
 ```
 
-```javascript
-
-// pages > payment.js
-
-  // 액션 실행용 dispatch
-  const dispatch = useDispatch();
-  // 장바구니 상태 호출
-  const cart = useSelector((state) => state.cart);
-
-  // 결제 페이지 관련 데이터 계산
-  const totalCount = cart.reduce((acc, item) => acc + item.count, 0);
-  const totalPrice = cart.reduce((acc, item) => acc + item.count * item.price, 0);
-
-  // 결제 수단 선택 모달 상태
-  const [selectedPayment, setSelectedPayment] = useState(null);
-
-  <PaymentWrap>
-    {/* 결제 수단이 선택되었을 때만 결제 모달 표시 */}
-    {
-      selectedPayment && (
-        <PaymentModal
-          payment={selectedPayment}
-          onClose={() => setSelectedPayment(null)}
-        />
-      )
-    }
-
-    {/* 장바구니 목록 영역 */}
-    <PaymentCart>
-      {/* 장바구니 테이블 헤더 */}
-      <ul className='cart_sort'>
-        <li>메뉴</li>
-        <li>수량</li>
-        <li>금액</li>
-        <li></li>
-      </ul>
-
-      {/* 장바구니 아이템 출력 */}
-      {
-        cart.map((item) => {
-          // 각 상품의 총 금액 = 단가 * 수량
-          const proTotalPrice = item.count * item.price;
-
-          return (
-            <CartList key={item.id}>
-              <li className='menu_name'>
-                {/* 상품 정보(이미지 + 이름) */}
-                <div><img src={item.image} /></div>
-                <p>{item.title}</p>
-              </li>
-              {/* 수량 조절 버튼 */}
-              <li className='payment_amount_box'>
-                <BtnBox style={{width: '300px', justifyContent: 'space-between'}}>
-                  {/* 수량 감소 버튼 (1 이하일 땐 비활성화) */}
-                  <MinusBtn
-                    disabled={item.count <= 1}
-                    onClick = {() => dispatch(subCount(item.id))}
-                  />
-                  <span>{item.count}</span>
-                  {/* 수량 증가 버튼 */}
-                  <PlusBtn
-                    onClick = {() => dispatch(addCount(item.id))}
-                  />
-                </BtnBox>
-              </li>
-
-              {/* 상품 총 금액 */}
-              <li className='payment_price'>
-                <span>{proTotalPrice.toLocaleString()}원</span>
-              </li>
-
-              {/* 삭제 버튼 */}
-              <li className='payment_del_btn'>
-                <DelBtn
-                  onClick={() => dispatch(deleteItem(item.id))}
-                >삭제</DelBtn>
-              </li>
-            </CartList>
-          )
-        })
-      }
-    </PaymentCart>
-
-    {/* 결제 정보 요약 (총 수량 / 총 금액) */}
-    <CreditWrap>
-      <div className='payment_info'>
-        <ul>
-          <li className='payment_total_account'>총 수량</li>
-          <li className='payment_total_price'>{totalCount} 개</li>
-        </ul>
-        <ul>
-          <li className='payment_total_account'>총 결제 금액</li>
-          <li className='payment_total_price'>{totalPrice.toLocaleString()} 원</li>
-        </ul>
-      </div>
-  {/* --- 이후 다른 UI 생략 --- */}
-  </PaymentWrap>
-
-```
-<br/>
-
-### 🔍 코드 리뷰 요약
-- Navigate를 통해 /sub 진입 시 기본 카테고리(classic)로 자동 리다이렉트 처리
-- Redux Toolkit 활용해 cartSlice로 장바구니 관리, optionCountOneSlice로 옵션 수량 상태 관리
-- Footer, Payment 페이지에서 장바구니 데이터 기반으로 총 수량, 총 금액 계산 및 UI 반영
-- 결제 페이지에서 모달 상태 관리로 결제 수단 선택 기능 구현
 <br><br/>
 
 ### 🔹 학습 포인트
