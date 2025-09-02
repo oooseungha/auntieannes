@@ -49,6 +49,8 @@ function App() {
 <br/>
 
 ## (2) Redux 전역 상태 관리 구성
+<img width="846" height="536" alt="Image" src="https://github.com/user-attachments/assets/d2c9f819-52ad-4271-b0bb-3a1239f3ecbb" />
+
 - Redux Toolkit을 활용해 장바구니, 옵션 수량 등 전역 상태를 일관되게 관리
 - cartSlice, optionCountSlice 등을 정의해 상품 추가/삭제, 수량 조절, 옵션 관리 상태를 전역으로 관리
 - useSelector, useDispatch를 활용해 컴포넌트 간 상태 공유 및 업데이트를 간소화
